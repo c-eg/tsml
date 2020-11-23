@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * Hopefully most of this can be encapsulated, so if the data has equal increments then indices is null and the user
 
  * */
-public class TimeSeries{
+public class TimeSeries {
 
     public static double defaultValue = Double.NaN;
 
@@ -136,12 +136,14 @@ public class TimeSeries{
      * @return String
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for(double val : series){
+        for (double val : series) {
             sb.append(val).append(',');
         }
+
+        sb.deleteCharAt(sb.length() - 1); // remove tailing ','
 
         return sb.toString();
     }
