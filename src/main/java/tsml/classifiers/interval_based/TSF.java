@@ -22,6 +22,9 @@ import evaluation.storage.ClassifierResults;
 import fileIO.OutFile;
 import machine_learning.classifiers.TimeSeriesTree;
 import tsml.classifiers.*;
+import tsml.data_containers.TimeSeriesInstance;
+import tsml.data_containers.TimeSeriesInstances;
+import tsml.data_containers.utilities.Converter;
 import utilities.ClassifierTools;
 import evaluation.evaluators.CrossValidationEvaluator;
 import weka.classifiers.AbstractClassifier;
@@ -340,6 +343,18 @@ public class TSF extends EnhancedAbstractClassifier implements TechnicalInformat
         result.setValue(TechnicalInformation.Field.PAGES, "142-153");
  
         return result;
+  }
+
+    /**
+     * buildClassifier wrapper for TimeSeriesInstances
+     * @param data
+     * @throws Exception
+     */
+  @Override
+  public void buildClassifier(TimeSeriesInstances data) throws Exception {
+        Instances convertedData = Converter.toArff(data);
+        convertedData.setClassIndex(convertedData.numAttributes() - 1);
+        buildClassifier(convertedData);
   }
 
 
