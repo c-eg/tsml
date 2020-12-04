@@ -22,7 +22,7 @@ package tsml.classifiers;
  * 
  * Known classifiers: AbstractEnsemble, BOSS, cBOSS, BOSSIndividual, MultiSamplingEvaluator
  * 
- * @author pfm15hbu, James Large (james.large@uea.ac.uk) 
+ * @author Matthew Middlehurst, James Large (james.large@uea.ac.uk)
  */
 public interface MultiThreadable {
     
@@ -32,8 +32,8 @@ public interface MultiThreadable {
     void enableMultiThreading(int numThreads);
     
     /**
-     * Enables multithreading, and allows the class to spawn a number of threads equal to the number of available processors 
-     * minus one.
+     * Enables multithreading, and allows the class to spawn a number of threads equal to the number of available
+     * processors minus one.
      */
     default void enableMultiThreading() {
         enableMultiThreading(Runtime.getRuntime().availableProcessors()-1);

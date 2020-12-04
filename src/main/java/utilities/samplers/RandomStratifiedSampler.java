@@ -20,10 +20,8 @@ package utilities.samplers;
 import utilities.ArrayUtilities;
 import weka.core.Instance;
 import weka.core.Instances;
-
 import java.util.List;
 import java.util.Random;
-
 import static utilities.InstanceTools.classDistribution;
 import static utilities.InstanceTools.instancesByClass;
 import static utilities.Utilities.argMax;
@@ -63,6 +61,7 @@ public class RandomStratifiedSampler implements Sampler{
         Instance sampledInstance = homogeneousInstances.remove(random.nextInt(homogeneousInstances.numInstances()));
         classSamplingProbabilities[sampleClass]--;
         ArrayUtilities.add(classSamplingProbabilities, classDistribution);
+        count++;
         return sampledInstance;
     }
 }

@@ -298,7 +298,7 @@ public class ElasticEnsemble extends EnhancedAbstractClassifier implements Writa
      */
     @Override
     public void buildClassifier(Instances train) throws Exception{
-        trainResults.setBuildTime(System.currentTimeMillis());
+        trainResults.setBuildTime(System.nanoTime());
         this.train = train;
         this.derTrain = null;
         usesDer = false;
@@ -375,7 +375,8 @@ public class ElasticEnsemble extends EnhancedAbstractClassifier implements Writa
                 this.getTrainPreds();
             }
         }
-        trainResults.setBuildTime(System.currentTimeMillis()-trainResults.getBuildTime());
+        trainResults.setTimeUnit(TimeUnit.NANOSECONDS);
+        trainResults.setBuildTime(System.nanoTime()-trainResults.getBuildTime());
         trainResults.setParas(getParameters());
 
     }

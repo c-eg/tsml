@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tsml.classifiers.ParameterSplittable;
@@ -408,7 +409,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                         count++;
                         tempResults = new ClassifierResults();
                         tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                        combinedBuildTime+=tempResults.getBuildTime();
+                        combinedBuildTime+=tempResults.getBuildTimeInNanos();
                         double e=1-tempResults.getAcc();
                         if(e<minErr){
                             minErr=e;
@@ -552,7 +553,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                             count++;
                             tempResults = new ClassifierResults();
                             tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                            combinedBuildTime+=tempResults.getBuildTime();
+                            combinedBuildTime+=tempResults.getBuildTimeInNanos();
                             double e=1-tempResults.getAcc();
                             if(e<minErr){
                                 minErr=e;
@@ -681,7 +682,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                     count++;
                     tempResults = new ClassifierResults();
                     tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                    combinedBuildTime+=tempResults.getBuildTime();
+                    combinedBuildTime+=tempResults.getBuildTimeInNanos();
                     double e=1-tempResults.getAcc();
                     if(e<minErr){
                         minErr=e;
@@ -796,7 +797,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                 File f= new File(resultsPath+count+".csv");
                 if(f.exists() && f.length()>0){
                     tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                    combinedBuildTime+=tempResults.getBuildTime();
+                    combinedBuildTime+=tempResults.getBuildTimeInNanos();
                     double e=1-tempResults.getAcc();
                     if(e<minErr){
                         minErr=e;
@@ -816,7 +817,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                     File f= new File(resultsPath+count+".csv");
                     if(f.exists() && f.length()>0){
                         tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                        combinedBuildTime+=tempResults.getBuildTime();
+                        combinedBuildTime+=tempResults.getBuildTimeInNanos();
                         double e=1-tempResults.getAcc();
                         if(e<minErr){
                             minErr=e;
@@ -838,7 +839,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                         File f= new File(resultsPath+count+".csv");
                         if(f.exists() && f.length()>0){
                             tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                            combinedBuildTime+=tempResults.getBuildTime();
+                            combinedBuildTime+=tempResults.getBuildTimeInNanos();
                             double e=1-tempResults.getAcc();
                             if(e<minErr){
                                 minErr=e;
@@ -881,7 +882,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                 if(new File(resultsPath+count+".csv").exists()){
                     present++;
                     tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                    combinedBuildTime+=tempResults.getBuildTime();
+                    combinedBuildTime+=tempResults.getBuildTimeInNanos();
                     double e=1-tempResults.getAcc();
                     if(e<minErr){
                         minErr=e;
@@ -928,7 +929,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
                     if(new File(resultsPath+count+".csv").exists()){
                         present++;
                         tempResults.loadResultsFromFile(resultsPath+count+".csv");
-                        combinedBuildTime+=tempResults.getBuildTime();
+                        combinedBuildTime+=tempResults.getBuildTimeInNanos();
                         double e=1-tempResults.getAcc();
                         if(e<minErr){
                             minErr=e;
@@ -965,7 +966,7 @@ public class TunedSVM extends SMO implements SaveParameterInfo,SaveEachParameter
     @Override
     public void buildClassifier(Instances train) throws Exception {
         res =new ClassifierResults();
-        long t=System.currentTimeMillis();
+        long t=System.nanoTime();
 //        if(kernelOptimise)
 //            selectKernel(train);
         if(buildFromPartial){
@@ -1016,11 +1017,12 @@ this gives the option of finding one using 10xCV
 //If both kernelOptimise and tuneParameters are false, it just builds and SVM        
 //With whatever the parameters are set to        
         super.buildClassifier(train);
-        
+
+        res.setTimeUnit(TimeUnit.NANOSECONDS);
         if(saveEachParaAcc)
             res.setBuildTime(combinedBuildTime);
         else
-            res.setBuildTime(System.currentTimeMillis()-t);
+            res.setBuildTime(System.nanoTime()-t);
         if(trainPath!=null && trainPath!=""){  //Save basic train results
             res.setClassifierName("TunedSVM"+kernel);
             res.setDatasetName(train.relationName());

@@ -181,7 +181,7 @@ public class SummaryStats implements Transformer {
             out[i][j++] = stats.getMax();
             i++;
         }
-        return new TimeSeriesInstance(out, inst.getLabelIndex());
+        return new TimeSeriesInstance(out, inst.getLabelIndex(), inst.getClassLabels());
     }
 
 

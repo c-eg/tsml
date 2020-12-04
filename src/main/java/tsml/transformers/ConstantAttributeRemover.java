@@ -19,8 +19,6 @@ package tsml.transformers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import tsml.data_containers.TimeSeries;
 import tsml.data_containers.TimeSeriesInstance;
@@ -63,7 +61,7 @@ public class ConstantAttributeRemover implements TrainableTransformer {
 
     private boolean isAttributeConstant(final TimeSeriesInstances data, final int attToCheck){
         //in the first series, in the first dimension, get the att to check.
-        final double firstVal = data.get(0).get(0).get(attToCheck);
+        final double firstVal = data.get(0).get(0).getValue(attToCheck);
         int count =0;
         for(TimeSeriesInstance inst : data){
             for(TimeSeries ts : inst){
@@ -72,7 +70,7 @@ public class ConstantAttributeRemover implements TrainableTransformer {
                 if(ts.hasValidValueAt(attToCheck))
                     continue;
 
-                if (!NumUtils.isNearlyEqual(firstVal, ts.get(attToCheck))) 
+                if (!NumUtils.isNearlyEqual(firstVal, ts.getValue(attToCheck))) 
                     return false;
                 else
                     count++;
@@ -108,7 +106,7 @@ public class ConstantAttributeRemover implements TrainableTransformer {
         
         List<List<Double>> out = new ArrayList<>();
         for(TimeSeries ts : inst){
-            out.add(ts.toListWithoutIndexes(indexesToRemove));
+            out.add(ts.getVSliceComplementList(indexesToRemove));
         }
 
         return new TimeSeriesInstance(out);

@@ -123,7 +123,7 @@ public class ShapeletDistance implements Serializable{
 
         //only call to double array when we've changed series.
         if(candidateTSInst==null || candidateTSInst != inst){
-            candidateArray = inst.get(dimension).toArray();
+            candidateArray = inst.get(dimension).toValueArray();
             candidateTSInst = inst;
         }
         
@@ -143,7 +143,7 @@ public class ShapeletDistance implements Serializable{
     }
 
     public double calculate(TimeSeriesInstance timeSeriesInstance, int timeSeriesId) {
-		return calculate(timeSeriesInstance.get(dimension).toArray(), timeSeriesId);
+		return calculate(timeSeriesInstance.get(dimension).toValueArray(), timeSeriesId);
 	}
          
     public double distanceToShapelet(Shapelet otherShapelet){

@@ -46,8 +46,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
         double[] max = new double[data.getMaxLength()];
 		double[] min = new double[data.getMaxLength()];
 		double[] mean = new double[data.getMaxLength()];
@@ -84,8 +84,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
 
 
         //this should produce a size 3 interval slice across all dimensions that include atts: 0,1,2
@@ -93,8 +93,7 @@ public class DataManipulationExample {
         //equiv: double[][][] interval = data.getSliceArray(new int{0,1,2});
 
 
-        TimeSeriesInstances data_slice = new TimeSeriesInstances(interval, data.getClassIndexes());
-        data_slice.setClassLabels(data.getClassLabels());
+        TimeSeriesInstances data_slice = new TimeSeriesInstances(interval, data.getClassIndexes(), data.getClassLabels());
 
         System.out.println("Original");
         System.out.println(data);
@@ -122,8 +121,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] {"A", "B"});
+        
 
 
         //this should produce a size 3 interval slice across all dimensions that include atts: 0,1,2
@@ -131,9 +130,7 @@ public class DataManipulationExample {
         //equiv: double[][][] interval = data.getSliceArray(new int{0,1,2});
 
 
-        TimeSeriesInstances truncated_data = new TimeSeriesInstances(truncated, data.getClassIndexes());
-        truncated_data.setClassLabels(data.getClassLabels());
-
+        TimeSeriesInstances truncated_data = new TimeSeriesInstances(truncated, data.getClassIndexes(), data.getClassLabels());
         System.out.println("Original");
         System.out.println(data);
         System.out.println("Should be 2 value");
@@ -160,8 +157,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
 
         Instances converted = Converter.toArff(data);
         System.out.println(converted.toString());
@@ -183,8 +180,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
 
         Instances converted = Converter.toArff(data);
         System.out.println(converted.toString());
@@ -205,8 +202,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
         System.out.println(data);
 
         Instances converted = Converter.toArff(data);
@@ -235,8 +232,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
         System.out.println(data);
 
         Instances converted = Converter.toArff(data);
@@ -265,8 +262,8 @@ public class DataManipulationExample {
             }
         };
 
-        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1});
-        data.setClassLabels(new String[]{"A", "B"});
+        TimeSeriesInstances data = new TimeSeriesInstances(in, new int[]{0, 1}, new String[] { "A", "B" });
+        
 
 
         //this should produce only dimension 
@@ -276,8 +273,7 @@ public class DataManipulationExample {
         System.out.println(Arrays.deepToString(single_dimension));
 
 
-        TimeSeriesInstances truncated_data = new TimeSeriesInstances(single_dimension, data.getClassIndexes());
-        truncated_data.setClassLabels(data.getClassLabels());
+        TimeSeriesInstances truncated_data = new TimeSeriesInstances(single_dimension, data.getClassIndexes(), data.getClassLabels());
 
         System.out.println("Original");
         System.out.println(data);

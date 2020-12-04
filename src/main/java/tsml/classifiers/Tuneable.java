@@ -29,6 +29,7 @@ package tsml.classifiers;
 import evaluation.tuning.ParameterSpace;
 
 /**
+ * For classifiers which can be tuned, requires an overidden setOptions from abstract classifier in most cases.
  *
  * @author ajb
  */
@@ -37,7 +38,8 @@ public interface Tuneable {
     /**
      * getDefaultParameterSearchSpace returns the possible parameter values
      * that can be looked for with the TunedClassifier
-     * @return 
+     *
+     * @return default parameter space for tuning
      */
     ParameterSpace getDefaultParameterSearchSpace();
 }
