@@ -36,8 +36,8 @@ import java.io.*;
 public class FileReadingExample
 {
     public static void main(String[] args) throws Exception {
-        tsfWithARFF(); // accuracy: 0.966958211856171
-        tsfWithTS();   // accuracy: 0.9650145772594753
+        tsfWithARFF();
+        tsfWithTS();
     }
 
     /**
@@ -56,7 +56,7 @@ public class FileReadingExample
         tsf.buildClassifier(train);
 
         // example usage to test if it's working
-        double a = ClassifierTools.accuracy(Converter.toArff(test), tsf); // Remove wrapper once issue #450 has been resolved
+        double a = ClassifierTools.accuracy(test, tsf);
         System.out.println("TimeSeriesInstances Test Accuracy = " + a);
     }
 
@@ -83,7 +83,7 @@ public class FileReadingExample
         tsf.buildClassifier(trainTSI);
 
         // example usage to test if it's working
-        double a = ClassifierTools.accuracy(Converter.toArff(testTSI), tsf); // Remove wrapper once issue #450 has been resolved
+        double a = ClassifierTools.accuracy(testTSI, tsf);
         System.out.println("Instances Test Accuracy = " + a);
     }
 
