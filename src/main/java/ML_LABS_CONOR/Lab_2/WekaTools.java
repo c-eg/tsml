@@ -76,4 +76,38 @@ public class WekaTools {
 
         return split;
     }
+
+    /**
+     * Function to find class distribution for data.
+     * e.g. a three class problem - 200: 0; 500: 1; 300: 2.
+     * Would return [0.2, 0.5, 0.3]
+     * @param data data
+     * @return class distribution
+     */
+    public static double[] classDistribution(Instances data) {
+        double[] d = new double[data.numClasses()];
+
+        for (int i = 0; i < data.numInstances(); i++) { // loop for each instance
+            for (int j = 0; j < data.numClasses(); j++) { // loop for each class
+                if (data.get(i).classValue() == j) {
+                    d[j]++;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < d.length; i++) {
+            d[i] = d[i] / data.numInstances();
+        }
+
+        return d;
+    }
+
+    public static int[][] confusionMatrix(int[] predicted, int[] actual) {
+        // TODO: Implement this.
+
+        return null;
+    }
+
+
 }
