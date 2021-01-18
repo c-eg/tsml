@@ -8,14 +8,13 @@ import weka.core.Instances;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class HistogramClassifier implements Classifier
-{
+public class HistogramClassifier implements Classifier {
     private int bins = 10;
     private int classIndex = 0;
     private double max = 0;
     private double min = 0;
-    double range;
-    double intervals;
+    private double range;
+    private double intervals;
 
     // histograms
     private int[][] histograms;
@@ -37,8 +36,7 @@ public class HistogramClassifier implements Classifier
     }
 
     @Override
-    public void buildClassifier(Instances instances) throws Exception
-    {
+    public void buildClassifier(Instances instances) throws Exception {
         histograms = new int[instances.numClasses()][bins];
 
         // set min and max
@@ -78,22 +76,20 @@ public class HistogramClassifier implements Classifier
     }
 
     @Override
-    public double classifyInstance(Instance instance) throws Exception
-    {
+    public double classifyInstance(Instance instance) throws Exception {
         double[] d = distributionForInstance(instance); // get probability for both classes
         return getHighestIndex(d); // return index of highest probability
     }
 
     @Override
-    public double[] distributionForInstance(Instance instance) throws Exception
-    {
+    public double[] distributionForInstance(Instance instance) throws Exception {
         double[] d = new double[instance.numClasses()];
         double val = instance.value(0);
         int index = 0;
 
         // find correct interval index from instance passed
         for (int i = 0; i < bins; i++) {
-            if (val >= (min + intervals * i) && val <= (min + intervals * (i+1))) {
+            if (val >= (min + intervals * i) && val <= (min + intervals * (i + 1))) {
                 index = i;
                 break;
             }
@@ -102,7 +98,7 @@ public class HistogramClassifier implements Classifier
         // work out relative frequency for each histogram for that interval
         for (int i = 0; i < histograms.length; i++) {
             int total = IntStream.of(histograms[i]).sum(); // total values in each histogram
-            double rFreq = histograms[i][index] / (double)total; // relative frequency for interval
+            double rFreq = histograms[i][index] / (double) total; // relative frequency for interval
             d[i] = rFreq; // set relative frequency to class index
         }
 
@@ -121,8 +117,7 @@ public class HistogramClassifier implements Classifier
     }
 
     @Override
-    public Capabilities getCapabilities()
-    {
+    public Capabilities getCapabilities() {
         return null;
     }
 
@@ -142,8 +137,7 @@ public class HistogramClassifier implements Classifier
         double[] results = test.attributeToDoubleArray(1);
         double countCorrectPredictions = 0;
 
-        for (int i = 0; i < test.numInstances(); i++)
-        {
+        for (int i = 0; i < test.numInstances(); i++) {
             Instance t = test.instance(i);
             double prediction = hc.classifyInstance(t);
             if (prediction == results[i])
@@ -152,10 +146,9 @@ public class HistogramClassifier implements Classifier
 
         System.out.println("hc:");
         System.out.println(countCorrectPredictions + " / " + test.numInstances() + " correct predictions");
-        System.out.println(countCorrectPredictions/test.numInstances() + "% accuracy");
+        System.out.println(countCorrectPredictions / test.numInstances() + "% accuracy");
 
-        for (Instance i : test)
-        {
+        for (Instance i : test) {
             System.out.println(Arrays.toString(hc.distributionForInstance(i)));
         }
         System.out.println();

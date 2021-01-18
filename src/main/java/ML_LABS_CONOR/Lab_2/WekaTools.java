@@ -103,11 +103,43 @@ public class WekaTools {
         return d;
     }
 
+    /**
+     * Function to generate Contingency Table/Confusion Matrix from a set of
+     * correct results and predicted results.
+     * @param predicted predicted results
+     * @param actual actual results
+     * @return Contingency Table/Confusion Matrix
+     * <p>
+     *     e.g.
+     *     predicted = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+     *     actual =    [0, 0, 1, 1, 1, 0, 0, 1, 1, 1]
+     *
+     *     Returns:
+     *     [1, 0]
+     *     [3, 6]
+     *
+     *     Left column is class actual 0, right is 1
+     *     First row is class predicted 0, 2nd is 1
+     * </p>
+     */
     public static int[][] confusionMatrix(int[] predicted, int[] actual) {
-        // TODO: Implement this.
+        int[][] matrix = new int[2][2];
 
-        return null;
+        for (int i = 0; i < predicted.length; i++) {
+            if (predicted[i] == actual[i]) {
+                if (predicted[i] == 0)
+                    matrix[0][0]++;
+                else if (predicted[i] == 1)
+                    matrix[1][1]++;
+            }
+            else {
+                if (predicted[i] == 0)
+                    matrix[0][1]++;
+                else if (predicted[i] == 1)
+                    matrix[1][0]++;
+            }
+        }
+
+        return matrix;
     }
-
-
 }

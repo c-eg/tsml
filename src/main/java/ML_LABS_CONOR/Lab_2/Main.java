@@ -12,7 +12,13 @@ public class Main {
         Instances train = WekaTools.loadClassificationData(trainData);
         Instances test = WekaTools.loadClassificationData(testData);
 
-        System.out.println(Arrays.toString(WekaTools.classDistribution(train)) + "\n\n");
+        //System.out.println(Arrays.toString(WekaTools.classDistribution(train)) + "\n\n");
 
+
+        int[] actual = new int[]{0, 0, 1, 1, 1, 0, 0, 1, 1, 1};
+        int[] predicted = new int[]{0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+        int[][] confusionMatrix = WekaTools.confusionMatrix(predicted, actual);
+        System.out.println(Arrays.deepToString(confusionMatrix));
     }
 }
