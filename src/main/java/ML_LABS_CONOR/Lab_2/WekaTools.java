@@ -9,28 +9,36 @@ import java.util.Random;
 public class WekaTools {
     /**
      * Function to find accuracy of classifier, given test data.
+     *
      * @param c classifier
      * @param test instances
-     * @return double correct predictions out of total instances
+     * @return accuracy 5/10 correct would return 0.5
      */
-    public static double accuracy(Classifier c, Instances test) throws Exception {
+    public static double accuracy(Classifier c, Instances test) {
         double countCorrectPredictions = 0;
         double[] resultsFromData = test.attributeToDoubleArray(test.numAttributes() - 1);
 
         for (int i = 0; i < test.numInstances(); i++)
         {
             Instance t = test.instance(i);
-            double prediction = c.classifyInstance(t);
+            double prediction = 0;
+            try {
+                prediction = c.classifyInstance(t);
+            }
+            catch (Exception e) {
+                System.err.println("Exception caught: " + e.getMessage());
+            }
 
             if (prediction == resultsFromData[i])
                 countCorrectPredictions++;
         }
 
-        return countCorrectPredictions;
+        return countCorrectPredictions / test.numInstances();
     }
 
     /**
      * Function to get Instances from data file passed.
+     *
      * @param fullPath location string to data
      * @return Instances from data
      */
@@ -44,14 +52,16 @@ public class WekaTools {
             return train;
         }
         catch (Exception e) {
-            System.out.println("Exception caught: " + e);
+            System.err.println("Exception caught: " + e.getMessage());
         }
 
         return null;
     }
 
     /**
-     * Splits the data into train and test splits. Also randomises instance order
+     * Splits the data into train and test splits. Also randomises instance
+     * order.
+     *
      * @param all data
      * @param proportion proportion of data to be split, i.e. '0.5' = 50%
      * @return Instances array of size 2, containing split data
@@ -79,6 +89,7 @@ public class WekaTools {
 
     /**
      * Function to find class distribution for data.
+     *
      * e.g. a three class problem - 200: 0; 500: 1; 300: 2.
      * Would return [0.2, 0.5, 0.3]
      * @param data data
@@ -106,20 +117,20 @@ public class WekaTools {
     /**
      * Function to generate Contingency Table/Confusion Matrix from a set of
      * correct results and predicted results.
+     *
      * @param predicted predicted results
      * @param actual actual results
      * @return Contingency Table/Confusion Matrix
      * <p>
-     *     e.g.
-     *     predicted = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-     *     actual =    [0, 0, 1, 1, 1, 0, 0, 1, 1, 1]
+     * e.g.
+     * predicted = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+     * actual =    [0, 0, 1, 1, 1, 0, 0, 1, 1, 1]
      *
-     *     Returns:
-     *     [1, 0]
-     *     [3, 6]
-     *
-     *     Left column is class actual 0, right is 1
-     *     First row is class predicted 0, 2nd is 1
+     * Returns:
+     *            Actual
+     * Predicted / 0  1
+     *     0      [1, 0]
+     *     1      [3, 6]
      * </p>
      */
     public static int[][] confusionMatrix(int[] predicted, int[] actual) {
@@ -141,5 +152,66 @@ public class WekaTools {
         }
 
         return matrix;
+    }
+
+    /**
+     * Function to return confusion matrix in an easily-understandable way.
+     *
+     * @param confusionMatrix confusionMatrix
+     * @return confusion matrix is easy-to-read form
+     */
+    public static String confusionMatrixToString(int[][] confusionMatrix) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("           Actual\n");
+        sb.append("Predicted / 0  1\n");
+        sb.append("    0   [").append(confusionMatrix[0][0]).append("  ").append(confusionMatrix[0][1]).append("]").append("\n");
+        sb.append("    1   [").append(confusionMatrix[1][0]).append("  ").append(confusionMatrix[1][1]).append("]").append("\n");
+
+        return sb.toString();
+    }
+
+    /**
+     * Function to get predicted class values from Instances and a built
+     * classifier.
+     *
+     * @param c classifier (already built)
+     * @param data Instances
+     * @return array of class value predictions
+     */
+    public static int[] classifyInstances(Classifier c, Instances data) {
+        int[] predictedClassValues = new int[data.numInstances()];
+
+        for (int i = 0; i < predictedClassValues.length; i++) {
+            try {
+                predictedClassValues[i] = (int) c.classifyInstance(data.get(i));
+            }
+            catch (Exception e) {
+                System.err.println("Exception caught: " + e.getMessage());
+            }
+        }
+
+        return predictedClassValues;
+    }
+
+    /**
+     * Function to get actual class values from data.
+     *
+     * @param data data passed
+     * @return actual class values
+     */
+    public static int[] getClassValues(Instances data) {
+        int[] classValues = new int[data.numInstances()];
+
+        for (int i = 0; i < classValues.length; i++) {
+            try {
+                classValues[i] = (int) data.get(i).classValue();
+            }
+            catch (Exception e) {
+                System.err.println("Exception caught: " + e.getMessage());
+            }
+        }
+
+        return classValues;
     }
 }
