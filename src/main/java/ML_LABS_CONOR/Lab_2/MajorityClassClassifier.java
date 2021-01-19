@@ -6,19 +6,23 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 public class MajorityClassClassifier implements Classifier {
+    private double mostOccurringClass;
+
     @Override
     public void buildClassifier(Instances data) throws Exception {
-
+        // store most commonly occurring class
+        double[] classDistribution = WekaTools.classDistribution(data);
+        mostOccurringClass = WekaTools.getHighestIndex(classDistribution);
     }
 
     @Override
     public double classifyInstance(Instance instance) throws Exception {
-        return 0;
+        return mostOccurringClass;
     }
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
-        return new double[0];
+        return null;
     }
 
     @Override

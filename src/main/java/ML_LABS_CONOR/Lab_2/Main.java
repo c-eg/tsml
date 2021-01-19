@@ -2,6 +2,7 @@ package ML_LABS_CONOR.Lab_2;
 
 import ML_LABS_CONOR.Lab_1.HistogramClassifier;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.rules.ZeroR;
 import weka.core.Instances;
 
 import java.util.Arrays;
@@ -26,7 +27,6 @@ public class Main {
         System.out.println(WekaTools.confusionMatrixToString(confusionMatrix));
 
         System.out.println("Accuracy: " + WekaTools.accuracy(hc, test));
-
         System.out.println("\n");
 
         // NAIVE BAYES CLASSIFIER
@@ -41,5 +41,34 @@ public class Main {
         System.out.println(WekaTools.confusionMatrixToString(confusionMatrixNb));
 
         System.out.println("Accuracy: " + WekaTools.accuracy(nb, test));
+        System.out.println("\n");
+
+        // MAJORITY CLASS CLASSIFIER
+        System.out.println("MAJORITY CLASS CLASSIFIER");
+        MajorityClassClassifier mcc = new MajorityClassClassifier();
+        mcc.buildClassifier(train);
+
+        int[] predictionsMcc = WekaTools.classifyInstances(mcc, train);
+        int[] actualMcc = WekaTools.getClassValues(train);
+
+        int[][] confusionMatrixMcc = WekaTools.confusionMatrix(actualMcc, predictionsMcc);
+        System.out.println(WekaTools.confusionMatrixToString(confusionMatrixMcc));
+
+        System.out.println("Accuracy: " + WekaTools.accuracy(mcc, test));
+        System.out.println("\n");
+
+        // ZeroR CLASSIFIER
+        System.out.println("ZeroR CLASSIFIER");
+        ZeroR zeroR = new ZeroR();
+        zeroR.buildClassifier(train);
+
+        int[] predictionsR = WekaTools.classifyInstances(zeroR, train);
+        int[] actualR = WekaTools.getClassValues(train);
+
+        int[][] confusionMatrixR = WekaTools.confusionMatrix(actualR, predictionsR);
+        System.out.println(WekaTools.confusionMatrixToString(confusionMatrixR));
+
+        System.out.println("Accuracy: " + WekaTools.accuracy(zeroR, test));
+        System.out.println("\n");
     }
 }

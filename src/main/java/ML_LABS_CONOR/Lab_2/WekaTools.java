@@ -18,8 +18,7 @@ public class WekaTools {
         double countCorrectPredictions = 0;
         double[] resultsFromData = test.attributeToDoubleArray(test.numAttributes() - 1);
 
-        for (int i = 0; i < test.numInstances(); i++)
-        {
+        for (int i = 0; i < test.numInstances(); i++) {
             Instance t = test.instance(i);
             double prediction = 0;
             try {
@@ -213,5 +212,22 @@ public class WekaTools {
         }
 
         return classValues;
+    }
+
+    /**
+     * Function to get index of highest value in double array.
+     *
+     * @param data array
+     * @return int index of highest value
+     */
+    public static int getHighestIndex(double[] data) {
+        int largest = 0;
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] > data[largest])
+                largest = i;
+        }
+
+        return largest;
     }
 }

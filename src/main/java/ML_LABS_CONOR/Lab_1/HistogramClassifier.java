@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 
 public class HistogramClassifier implements Classifier {
     private int bins = 10;
-    private int classIndex = 0;
+    private int attributeIndex = 0;
     private double max = 0;
     private double min = 0;
     private double range;
@@ -27,12 +27,12 @@ public class HistogramClassifier implements Classifier {
         this.bins = bins;
     }
 
-    public int getClassIndex() {
-        return classIndex;
+    public int getAttributeIndex() {
+        return attributeIndex;
     }
 
-    public void setClassIndex(int classIndex) {
-        this.classIndex = classIndex;
+    public void setAttributeIndex(int attributeIndex) {
+        this.attributeIndex = attributeIndex;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class HistogramClassifier implements Classifier {
 
         // set min and max
         for (Instance ins : instances) {
-            double val = ins.value(0);
+            double val = ins.value(attributeIndex);
 
             if (min == 0) {
                 min = val;
