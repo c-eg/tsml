@@ -14,7 +14,9 @@
  * You should have received a copy of the GNU General Public License along
  * with the UEA TSML toolbox. If not, see <https://www.gnu.org/licenses/>.
  */
- 
+/**
+ * @author Aaron Bostrom and George Oastler
+  */
 package tsml.data_containers.utilities;
 
 import java.util.ArrayList;
@@ -182,10 +184,9 @@ public class Converter {
             
 
     }
-    
-    public static Instance toArff(TimeSeriesInstance tsinst) {
-        final TimeSeriesInstances tsinsts =
-                new TimeSeriesInstances(new TimeSeriesInstance[]{tsinst}, tsinst.getClassLabels());
+
+    public static Instance toArff(TimeSeriesInstance tsinst, String[] Labels) {
+        final TimeSeriesInstances tsinsts = new TimeSeriesInstances(new TimeSeriesInstance[]{tsinst}, Labels);
         final Instances insts = toArff(tsinsts);
         return insts.get(0);
     }
