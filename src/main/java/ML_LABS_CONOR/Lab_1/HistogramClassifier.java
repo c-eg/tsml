@@ -13,7 +13,6 @@ public class HistogramClassifier implements Classifier {
     private int attributeIndex = 0;
     private double max = 0;
     private double min = 0;
-    private double range;
     private double intervals;
 
     // histograms
@@ -39,37 +38,25 @@ public class HistogramClassifier implements Classifier {
     public void buildClassifier(Instances instances) throws Exception {
         histograms = new int[instances.numClasses()][bins];
 
-        // set min and max
-        for (Instance ins : instances) {
-            double val = ins.value(attributeIndex);
-
-            if (min == 0) {
-                min = val;
-                max = val;
-            }
-            else if (val < min)
-                min = val;
-            else if (val > max)
-                max = val;
-        }
+        min = instances.attributeStats(attributeIndex).numericStats.min;
+        max = instances.attributeStats(attributeIndex).numericStats.max;
 
         // set range of data and interval size for each bin
-        range = max - min;
+        double range = max - min;
         intervals = range / bins;
 
-        // for each class
-        for (int i = 0; i < instances.numClasses(); i++) {
-            for (Instance ins : instances) {
-                if (ins.classValue() == i) {
-                    double val = ins.value(0);
+        System.out.println(" min: " + min);
+        System.out.println(" max: " + max);
+        System.out.println(" interval: " + intervals);
 
-                    // fill histogram with counters for each bin
-                    for (int j = 0; j < bins; j++) {
-                        // if val is in interval range, add 1 to counter
-                        if (val >= min + intervals * j && val <= min + intervals * (j + 1)) {
-                            histograms[i][j] += 1;
-                        }
-                    }
+        for (Instance ins : instances) {
+            double val = ins.value(0);
+
+            // fill histogram with counters for each bin
+            for (int j = 0; j < bins; j++) {
+                // if val is in interval range, add 1 to counter
+                if (val >= min + intervals * j && val <= min + intervals * (j + 1)) {
+                    histograms[(int) ins.classValue()][j] += 1;
                 }
             }
         }
