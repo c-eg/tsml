@@ -71,7 +71,7 @@ public class HistogramClassifier implements Classifier {
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
         double[] d = new double[instance.numClasses()];
-        double val = instance.value(0);
+        double val = instance.value(attributeIndex);
         int index = 0;
 
         // find correct interval index from instance passed
@@ -109,7 +109,7 @@ public class HistogramClassifier implements Classifier {
     }
 
     public static void main(String[] args) throws Exception {
-        String trainData = "D:\\OneDrive\\OneDrive - University of East Anglia\\Uni Work\\Year 3\\Machine Learning\\Labs\\Lab 1\\weight-height.arff";
+        String trainData = "D:\\OneDrive\\OneDrive - University of East Anglia\\Uni Work\\Year 3\\Machine Learning\\Labs\\Lab 1\\heights_TRAIN.arff";
         String testData = "D:\\OneDrive\\OneDrive - University of East Anglia\\Uni Work\\Year 3\\Machine Learning\\Labs\\Lab 1\\heights_TEST.arff";
 
         Instances train = Main.loadData(trainData);
