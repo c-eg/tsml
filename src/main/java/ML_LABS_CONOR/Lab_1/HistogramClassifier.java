@@ -45,9 +45,9 @@ public class HistogramClassifier implements Classifier {
         double range = max - min;
         intervals = range / bins;
 
-        System.out.println(" min: " + min);
-        System.out.println(" max: " + max);
-        System.out.println(" interval: " + intervals);
+//        System.out.println(" min: " + min);
+//        System.out.println(" max: " + max);
+//        System.out.println(" interval: " + intervals);
 
         for (Instance ins : instances) {
             double val = ins.value(0);
@@ -139,5 +139,9 @@ public class HistogramClassifier implements Classifier {
             System.out.println(Arrays.toString(hc.distributionForInstance(i)));
         }
         System.out.println();
+    }
+
+    public String toString() {
+        return "Histogram";
     }
 }
