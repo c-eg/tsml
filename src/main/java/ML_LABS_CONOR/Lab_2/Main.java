@@ -2,14 +2,14 @@ package ML_LABS_CONOR.Lab_2;
 
 import ML_LABS_CONOR.Lab_1.HistogramClassifier;
 import weka.classifiers.Classifier;
-import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.Logistic;
 import weka.classifiers.lazy.IB1;
 import weka.classifiers.lazy.IBk;
-import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -128,26 +128,38 @@ public class Main {
         classifiers.add(logistic);
         classifiers.add(hc);
 
-        int classifier = 0;
         int runs = 30;
         double[][] accuracies = new double[classifiers.size()][runs];
 
-        for (Classifier c : classifiers) {
-            for (int i = 0; i < runs; i++) {
-                Instances[] split = WekaTools.splitData(allData, 0.3);
+        for (int i = 0; i < runs; i++) {
+            Instances[] split = WekaTools.splitData(allData, 0.3);
+
+            for (int j = 0; j < classifiers.size(); j++) {
+                Classifier c = classifiers.get(j);
 
                 Instances train = split[0];
                 Instances test = split[1];
 
                 c.buildClassifier(train);
-                accuracies[classifier][i] = WekaTools.accuracy(c, test);
+                accuracies[j][i] = WekaTools.accuracy(c, test);
             }
-
-            classifier++;
         }
 
-        for (int i = 0; i < classifiers.size(); i++) {
-            System.out.println(classifiers.get(i).getClass().getSimpleName() + ": " + Arrays.toString(accuracies[i]));
+        printToCSV(accuracies);
+    }
+
+    private static void printToCSV(double[][] data) {
+        try (PrintWriter writer = new PrintWriter("D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_2\\TEST_EXECUTION_PLS_DONT.csv")) {
+            System.out.println("Printing to CSV...");
+
+            for (double[] line : data) {
+                String lineCSV = Arrays.toString(line);
+                writer.write(lineCSV.substring(1, lineCSV.length() - 1) + "\n");
+            }
+            System.out.println("Finished printing to CSV!");
+        }
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

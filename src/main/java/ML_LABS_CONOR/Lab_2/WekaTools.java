@@ -74,7 +74,7 @@ public class WekaTools {
         // create splits
         Instances[] split = new Instances[2];
         split[0] = new Instances(resampled);
-        split[1] = new Instances(resampled, 0);
+        split[1] = new Instances(resampled, 0); // copy header information but no data
 
         // MOVE a proportion of the data from split[0] to split[1]
         double toMove = proportion * resampled.numInstances();
