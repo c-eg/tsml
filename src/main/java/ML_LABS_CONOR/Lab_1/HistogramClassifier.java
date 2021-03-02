@@ -50,7 +50,7 @@ public class HistogramClassifier implements Classifier {
 //        System.out.println(" interval: " + intervals);
 
         for (Instance ins : instances) {
-            double val = ins.value(0);
+            double val = ins.value(attributeIndex);
 
             // fill histogram with counters for each bin
             for (int j = 0; j < bins; j++) {
