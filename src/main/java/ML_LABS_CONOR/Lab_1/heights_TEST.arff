@@ -1,0 +1,16 @@
+@RELATION Heights
+
+@ATTRIBUTE Height numeric
+@ATTRIBUTE class {M,F}
+
+@DATA
+166,M
+150,F
+177,M
+160,F
+185,M
+169,M
+160,M
+160,F
+158,F
+163,F
