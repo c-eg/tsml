@@ -63,7 +63,8 @@ public class WekaTools {
      * order.
      *
      * @param all data
-     * @param proportion proportion of data to be split, i.e. '0.5' = 50%
+     * @param proportion proportion of data to be split,
+     *                   i.e. '0.3' is 70% train, 30% test
      * @return Instances array of size 2, containing split data
      */
     public static Instances[] splitData(Instances all, double proportion) {
@@ -222,23 +223,6 @@ public class WekaTools {
      * @return int index of highest value
      */
     public static int getHighestIndex(double[] data) {
-        int largest = 0;
-
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] > data[largest])
-                largest = i;
-        }
-
-        return largest;
-    }
-
-    /**
-     * Function to get index of highest value in int array.
-     *
-     * @param data array
-     * @return int index of highest value
-     */
-    public static int getHighestIndex(int[] data) {
         int largest = 0;
 
         for (int i = 0; i < data.length; i++) {

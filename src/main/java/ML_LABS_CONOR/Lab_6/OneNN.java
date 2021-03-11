@@ -37,14 +37,7 @@ public class OneNN extends AbstractClassifier {
     public double[] distributionForInstance(Instance instance) throws Exception {
         double[] probabilities = new double[instance.numClasses()];
         double prediction = classifyInstance(instance); // get predicted class
-
-        // set predicted class value to 1 and all others to 0
-        for (int i = 0; i < probabilities.length; i++) {
-            if (prediction == i)
-                probabilities[i] = 1;
-            else
-                probabilities[i] = 0;
-        }
+        probabilities[(int)prediction] = 1; // set predicted class index to 1
 
         return probabilities;
     }
@@ -67,6 +60,7 @@ public class OneNN extends AbstractClassifier {
             distance += Math.pow((xData[i] - yData[i]), 2);
         }
 
-        return Math.sqrt(distance);
+        return distance;
+        //return Math.sqrt(distance);
     }
 }
