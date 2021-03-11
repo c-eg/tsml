@@ -6,8 +6,6 @@ import weka.classifiers.lazy.IB1;
 import weka.core.Instance;
 import weka.core.Instances;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) throws Exception {
         //part1();
