@@ -6,10 +6,13 @@ import weka.classifiers.lazy.IB1;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         //part1();
-        part2();
+        //part2();
+        part3();
     }
 
     private static void part1() throws Exception {
@@ -78,5 +81,39 @@ public class Main {
         System.out.println("Balanced Accuracy: " + ib1res.balancedAcc);
         System.out.println("Negative Log Likelihood: " + ib1res.nll);
         System.out.println("Area Under ROC: " + ib1res.meanAUROC);
+    }
+
+    private static void part3() throws Exception {
+//        String path = "D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_6\\";
+//        String fileName = "FootballPlayers";
+
+        String path = "D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_4\\UCIContinuous\\blood\\";
+        String fileName = "blood";
+
+        Instances data = WekaTools.loadClassificationData(path + fileName + ".arff");
+        Instances[] split = WekaTools.splitData(data, 0.3);
+
+        Instances train = split[0];
+        Instances test = split[1];
+
+        /*
+         * kNN
+         */
+        System.out.println("kNN Classifier");
+
+        kNN kNN = new kNN(20);
+        kNN.buildClassifier(train);
+
+        WekaTools.generateTestResults(kNN, train, test, "D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_6\\", "kNNTestResults");
+        String kNNtestOutput = "kNNTestResults.csv";
+
+        ClassifierResults kNNres = new ClassifierResults();
+        kNNres.loadResultsFromFile("D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_6\\" + kNNtestOutput);
+        kNNres.findAllStats();
+
+        System.out.println("Accuracy: " + kNNres.getAcc());
+        System.out.println("Balanced Accuracy: " + kNNres.balancedAcc);
+        System.out.println("Negative Log Likelihood: " + kNNres.nll);
+        System.out.println("Area Under ROC: " + kNNres.meanAUROC);
     }
 }
