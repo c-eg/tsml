@@ -1,6 +1,7 @@
 package ML_LABS_CONOR.Lab_6;
 
 import ML_LABS_CONOR.Lab_2.WekaTools;
+import ML_LABS_CONOR.Lab_4.EnsembleClassifier;
 import evaluation.storage.ClassifierResults;
 import weka.classifiers.lazy.IB1;
 import weka.core.Instance;
@@ -113,5 +114,25 @@ public class Main {
         System.out.println("Balanced Accuracy: " + kNNres.balancedAcc);
         System.out.println("Negative Log Likelihood: " + kNNres.nll);
         System.out.println("Area Under ROC: " + kNNres.meanAUROC);
+
+
+        /*
+         * EnsembleClassifier
+         */
+        System.out.println("\n\nEnsembleClassifier Classifier");
+        EnsembleClassifier ensemble = new EnsembleClassifier();
+        ensemble.buildClassifier(train);
+
+        WekaTools.generateTestResults(ensemble, train, test, "D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_6\\", "ensembleTestResults");
+        String ensembletestOutput = "ensembleTestResults.csv";
+
+        ClassifierResults ensembleres = new ClassifierResults();
+        ensembleres.loadResultsFromFile("D:\\Documents\\git\\tsml\\src\\main\\java\\ML_LABS_CONOR\\Lab_6\\" + ensembletestOutput);
+        ensembleres.findAllStats();
+
+        System.out.println("Accuracy: " + ensembleres.getAcc());
+        System.out.println("Balanced Accuracy: " + ensembleres.balancedAcc);
+        System.out.println("Negative Log Likelihood: " + ensembleres.nll);
+        System.out.println("Area Under ROC: " + ensembleres.meanAUROC);
     }
 }

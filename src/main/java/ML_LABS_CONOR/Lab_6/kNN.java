@@ -54,6 +54,7 @@ public class kNN extends AbstractClassifier {
             classLikelihoods[(int) distancePairs.get(i).instance.classValue()]++;
         }
 
+        // change amounts to distributions
         for (int i = 0; i < kNeighbours; i++) {
             classLikelihoods[i] = classLikelihoods[i] / kNeighbours;
         }
